@@ -14,39 +14,39 @@ const val review5 = "En una misión para recuperar a una hermosa princesa de las
 const val review6 = "Un parque temático de dinosaurios busca atraer turistas con una emocionante \n" +
                     "exhibición, pero su criatura más terrible logra escapar y desata el caos en la isla."
 
-fun main(args: Array<String>) {
+fun main() {
     if (login()){
         home()
     }else {
-        login()
+        main()
     }
 }
 
 fun movieDetails(movie: String) {
     when(movie.lowercase()) {
         "1", "el padrino" -> {
-            MoviePOO("El Padrino", review1).details()
-            qualifyMovie("El Padrino", review1)
+            getObjectMovie("El Padrino", review1)
+            optionConsole("El Padrino", review1)
         }
         "2", "la dictadura perfecta" -> {
-            MoviePOO("La Dictadura Perfecta", review2).details()
-            qualifyMovie("La Dictadura Perfecta", review2)
+            getObjectMovie("La Dictadura Perfecta", review2)
+            optionConsole("La Dictadura Perfecta", review2)
         }
         "3", "lagrimas del sol" -> {
-            MoviePOO("Lagrimas Del Sol", review3).details()
-            qualifyMovie("Lagrimas Del Sol", review3)
+            getObjectMovie("Lagrimas Del Sol", review3)
+            optionConsole("Lagrimas Del Sol", review3)
         }
         "4", "los juegos del hambre" -> {
-            MoviePOO("Los Juegos Del Hambre", review4).details()
-            qualifyMovie("Los Juegos Del Hambre", review4)
+            getObjectMovie("Los Juegos Del Hambre", review4)
+            optionConsole("Los Juegos Del Hambre", review4)
         }
         "5", "shrek" -> {
-            MoviePOO("Shrek", review5).details()
-            qualifyMovie("Shrek", review5)
+            getObjectMovie("Shrek", review5)
+            optionConsole("Shrek", review5)
         }
         "6", "jurassic world" -> {
-            MoviePOO("Jurassic World", review6).details()
-            qualifyMovie("Jurassic World", review6)
+            getObjectMovie("Jurassic World", review6)
+            optionConsole("Jurassic World", review6)
         }
         else -> {
             println("NO SE ENCONTRÓ LA PELÍCULA SELECCIONADA")
@@ -55,17 +55,24 @@ fun movieDetails(movie: String) {
     }
 }
 
-fun qualifyMovie(name: String, description: String) {
+fun getObjectMovie(name: String, description: String, qualifyUser: String = "4") {
+    MoviePOO(name, description, qualifyUser!!.toInt()).details()
+}
+
+fun optionConsole(name: String, description: String) {
     fun qualify() {
-        println("AGREGA UNA CALIFICACIÓN DEL 1-5")
+        println("AGREGA UNA CALIFICACIÓN DEL 1..5")
         val qualifyUser = readlnOrNull()
-        MoviePOO(name, description, qualifyUser!!.toInt()).details()
-        qualifyMovie(name, description)
+        getObjectMovie(name, description, qualifyUser.toString())
+        optionConsole(name, description)
     }
 
-    println("-------------------------¿QUE QUIERES HACER?  |1 Menú principal|  |2 Cerrar Sesión|  |3 Calificar Pelicula|-------------------------")
+    println("    ¿QUE QUIERES HACER?  \n" +
+            "|      1 Menú principal     |\n" +
+            "|      2 Cerrar Sesión      |\n" +
+            "|      3 Calificar Pelicula |")
     val option = readlnOrNull()
-    if (option == "1") home() else if (option == "2") login() else qualify()
+    if (option == "1") home() else if (option == "2") main() else qualify()
 }
 
 fun login(): Boolean{
