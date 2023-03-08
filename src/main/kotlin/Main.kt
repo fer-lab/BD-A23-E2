@@ -6,7 +6,7 @@ const val review2 = "Tras aceptar un soborno descomunal, una poderosa corporaci�
                     "intenta mejorar con mentiras la imagen de un notorio político corrupto."
 const val review3 = "Cuando la guerra asola Nigeria, un miembro del equipo SEAL de la Marina \n" +
                     "deberá rescatar a una médica refugiada en la jungla y a toda la gente bajo \n" +
-                    "su cuidado"
+                    "su cuidado."
 const val review4 = "En un mundo post-apocalíptico, Katniss y Peeta representan a su distrito en una \n" +
                     "competencia televisada en la que cada participante lucha contra la muerte."
 const val review5 = "En una misión para recuperar a una hermosa princesa de las garras de un dragón feroz, \n" +
@@ -93,7 +93,7 @@ fun login(): Boolean{
 }
 
 fun home() {
-    println("----------------------TODAS LAS PELÍCULAS----------------------")
+    println("----------------------| TODAS LAS PELÍCULAS |----------------------")
     println("________________________________")
     val peliculas = setOf(
         "| 1 El Padrino                 |",
