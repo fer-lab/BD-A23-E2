@@ -1,0 +1,26 @@
+id|name|genre|year|synopsis|director
+1|Avengers: Infinity War|Action|2018|The Avengers and their allies must be willing to sacrifice all in an attempt to defeat the powerful Thanos before his blitz of devastation and ruin puts an end to the universe.|Anthony Russo, Joe Russo
+2|John Wick: Chapter 2|Action|2017|After returning to the criminal underworld to repay a debt, John Wick discovers that a large bounty has been put on his life.|Chad Stahelski
+3|Mission: Impossible - Fallout|Action|2018|Ethan Hunt and his IMF team, along with some familiar allies, race against time after a mission gone wrong.|Christopher McQuarrie
+4|Black Widow|Action|2021|Natasha Romanoff confronts the darker parts of her ledger when a dangerous conspiracy with ties to her past arises. Pursued by a force that will stop at nothing to bring her down, Natasha must deal with her history as a spy and the broken relationships left in her wake long before she became an Avenger.|Cate Shortland
+5|No Time to Die|Action|2021|James Bond has left active service. His peace is short-lived when Felix Leiter, an old friend from the CIA, turns up asking for help, leading Bond onto the trail of a mysterious villain armed with dangerous new technology.|Cary Joji Fukunaga
+6|The Disaster Artist|Comedy|2017|When Greg Sestero, an aspiring film actor, meets the weird and mysterious Tommy Wiseau in an acting class, they form a unique friendship and travel to Hollywood to make their dreams come true.|James Franco
+7|Game Night|Comedy|2018|A group of friends who meet regularly for game nights find themselves entangled in a real-life mystery when the shady brother of one of them is seemingly kidnapped by dangerous gangsters.|John Francis Daley, Jonathan Goldstein
+8|Eighth Grade|Comedy|2018|An introverted teenage girl tries to survive the last week of her disastrous eighth grade year before leaving to start high school.|Bo Burnham
+9|Booksmart|Comedy|2019|On the eve of their high school graduation, two academic superstars and best friends realize they should have worked less and played more. Determined not to fall short of their peers, the girls try to cram four years of fun into one night.|Olivia Wilde
+10|Don't Look Up|Comedy|2021|Two low-level astronomers must go on a giant media tour to warn mankind of an approaching comet that will destroy planet Earth.|Adam McKay
+11|Three Billboards Outside Ebbing, Missouri|Drama|2017|A mother personally challenges the local authorities to solve her daughter's murder when they fail to catch the culprit.|Martin McDonagh
+12|Lady Bird|Drama|2017|In 2002, an artistically inclined seventeen-year-old girl comes of age in Sacramento, California.|Greta Gerwig
+13|Dunkirk|Drama|2017|Dunkirk serves up emotionally satisfying spectacle, delivered by a writer-director in full command of his craft and brought to life by a gifted ensemble cast that honors the fact-based story.|Christopher Nolan
+14|The Father|Drama|2020|A man refuses all assistance from his daughter as he ages. As he tries to make sense of his changing circumstances, he begins to doubt his loved ones, his own mind and even the fabric of his reality.|Florian Zeller
+15|The Power of the Dog|Drama|2021|Charismatic rancher Phil Burbank inspires fear and awe in those around him. When his brother brings home a new wife and her son, Phil torments them until he finds himself exposed to the possibility of love.|Jane Campion
+16|It|Horror|2017|A group of bullied kids band together when a shape-shifting monster, taking the appearance of a clown, begins hunting children.|Andy Muschietti
+17|A Quiet Place|Horror|2018|In a post-apocalyptic world, a family is forced to live in silence while hiding from monsters with ultra-sensitive hearing.|John Krasinski
+18|Hereditary|Horror|2018|A grieving family is haunted by tragic and disturbing occurrences.|Ari Aster
+19|Midsommar|Horror|2019|A couple travels to Sweden to visit a rural hometown's fabled mid-summer festival. What begins as an idyllic retreat quickly devolves into an increasingly violent and bizarre competition at the hands of a pagan cult.|Ari Aster
+20|Candyman|Horror|2021|A sequel to the horror film Candyman (1992) that returns to the now-gentrified Chicago neighborhood where the legend began.|Nia DaCosta
+21|Coco|Animation|2017|Aspiring musician Miguel, confronted with his family's ancestral ban on music, enters the Land of the Dead to find his great-great-grandfather, a legendary singer.|Lee Unkrich
+22|Spider-Man: Into the Spider-Verse|Animation|2018|Teen Miles Morales becomes the Spider-Man of his universe, and must join with five spider-powered individuals from other dimensions to stop a threat for all realities.|Bob Persichetti, Peter Ramsey, Rodney Rothman
+23|Toy Story 4|Animation|2019|When a new toy called 'Forky' joins Woody and the gang, a road trip alongside old and new friends reveals how big the world can be for a toy.|Josh Cooley
+24|Soul|Animation|2020|A musician who has lost his passion for music is transported out of his body and must find his way back with the help of an infant soul learning about herself.|Pete Docter, Kemp Powers
+25|Luca|Animation|2021|On the Italian Riviera, an unlikely but strong friendship grows between a human being and a sea monster disguised as a human.|Enrico Casarosa

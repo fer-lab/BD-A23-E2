@@ -1,0 +1,7 @@
+id|username|realname|type|passwd
+1|admin|Administrator|admin|admin
+2|user1|Dylan Waters|user|user1
+3|user2|Ashley Patel|user|user2
+4|user3|Kade Long|user|user3
+5|user4|Jayla Hall|user|user4
+6|user5|Talia Hoffman|user|user5
