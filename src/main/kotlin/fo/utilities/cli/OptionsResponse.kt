@@ -22,4 +22,9 @@ class OptionsResponse(private val response: String, private val options: ArrayLi
     override fun toString(): String {
         return get()
     }
+
+    fun toInt(): Int
+    {
+        return if (get().toIntOrNull() == null) 0 else get().toInt()
+    }
 }

@@ -1,9 +1,6 @@
 package fo.utilities
 
-import fo.Like
-import fo.Movie
-import fo.Review
-import fo.User
+import t6.*
 import java.io.File
 
 
@@ -13,14 +10,15 @@ class Storage {
 
         val movies: MutableList<Movie> = mutableListOf()
         val users: MutableList<User> = mutableListOf()
-        val reviews: MutableList<Review> = mutableListOf()
         val likes: MutableList<Like> = mutableListOf()
+        val reviews: MutableList<Review> = mutableListOf()
 
         init {
 
             val storage = Storage()
             storage.loadMovies()
             storage.loadUsers()
+
 
             val randomizer = Randomizer()
             randomizer.generateRandomReviews()
@@ -40,12 +38,13 @@ class Storage {
             val fields = line.split("|")
 
             if (fields[0] != "") {
-                val id = fields[0].toInt()
-                val nick = fields[1]
-                val name = fields[2]
-                val type = fields[3]
-                val passwd = fields[4]
-                users.add(User(id, nick, name, type, passwd))
+
+                users.add(User(
+                    Tools.uuid(),
+                    fields[0],
+                    fields[1],
+                    UserType.values().find { it.code == fields[2] } ?: UserType.USER,
+                    fields[3]))
             }
 
         }
@@ -57,19 +56,22 @@ class Storage {
         val file = File(javaClass.getResource("db.movies.txt").toURI())
         val csvString = file.readText()
 
+
         csvString.lines().drop(1).forEach { line ->
             val fields = line.split("|")
 
-            if (fields[0] != "") {
-                val id = fields[0].toInt()
-                val name = fields[1]
-                val genre = fields[2]
-                val year = fields[3].toInt()
-                val synopsis = fields[4]
-                val director = fields[5]
+            if (fields[1] != "") {
 
-                movies.add(Movie(id, name, genre, year, synopsis, director))
+
+                movies.add(Movie(
+                    Tools.uuid(),
+                    fields[1],
+                    fields[2],
+                    fields[3].toInt(),
+                    fields[4],
+                    fields[5]))
             }
+
 
         }
 

@@ -2,65 +2,65 @@ package fo
 
 import fo.utilities.Storage
 import fo.utilities.Tools
+import t6.Movie
+import t6.Movies
 
-class Movies {
+class Movies: Movies {
 
     private val users: Users = Users()
-    fun getAll(): Map<Int, Movie> {
+    private val reviews: Reviews = Reviews()
+    override fun getAll(): Map<String, Movie> {
 
         return Storage.movies.associateBy { it.id }
     }
 
-    fun get(id: Int): Movie {
-        val movie = getAll().values.firstOrNull{ it.id == id }
-
-        if (movie != null) {
-            return movie
-        }
-
-        return Movie(id = 0, name = "", genre = "", year = 0, synopsis = "", director = "")
+    override fun get(id: String): Movie {
+        return getAll().entries.firstOrNull{ it.value.id == id } ?.value ?: emptyMovie()
     }
 
-    fun getYears(): Map<Int,Int>
+    override fun getYears(): List<Int>
     {
-        return getAll().values.groupBy { it.year }
-            .toSortedMap()
-            .keys
-            .mapIndexed { index, year -> index + 1 to year }
-            .toMap()
+        return getAll().values.map { it.year }.distinct().sorted().toList()
     }
 
-    fun getGenres(): Map<Int,String>
+    override fun getGenres(): List<String>
     {
-        return getAll().values.groupBy { it.genre }
-            .keys
-            .sorted()
-            .mapIndexed { index, genre -> index + 1 to genre }
-            .toMap()
+        return getAll().values.map { it.genre }.distinct().sorted().toList()
+
     }
 
-    fun byYear(year: Int): Map<Int, Movie> {
+    override fun getByYear(year: Int): Map<String, Movie> {
         return getAll().filterValues { it.year == year }
 
     }
 
-    fun byGenre(genre: String): Map<Int, Movie> {
+    override fun getByGenre(genre: String): Map<String, Movie> {
         return getAll().filterValues { it.genre == genre }
     }
 
-    fun find(query: String): Map<Int, Movie> {
+    override fun find(query: String): Map<String, Movie> {
         return getAll().filterValues { it.name.contains(query, ignoreCase = true) }
     }
 
-    fun remove(id: Int) {
+    override fun remove(id: String) {
         Storage.movies.removeAll{it.id == id}
     }
 
     fun parseRating(movie: Movie): String {
 
-        val movieRatings = movie.ratings()
+        val movieRating: (String) -> String = { movieId ->
+            Reviews().getByMovie(movieId)
+                .values
+                .map { it.first.rank }
+                .takeIf { it.isNotEmpty() }
+                ?.average()
+                ?.toString()
+                ?: "0.0"
+        }
 
-        if (movieRatings.toFloat() > 0)
+        val movieRatings = movieRating(movie.id)
+
+        if (movieRatings.toFloat() > 0F)
         {
             if (Tools.hasDecimal(movieRatings.toFloat()))
             {
@@ -75,7 +75,7 @@ class Movies {
 
     fun parseReviews(movie: Movie): String {
 
-        val reviewList = Reviews().movieReviews(movie.id)
+        val reviewList = reviews.getByMovie(movie.id)
         var reviewText = ""
 
         if (reviewList.size == 1)
@@ -89,10 +89,15 @@ class Movies {
 
         for (review in reviewList)
         {
-            reviewText += "\"${review.value.comment}\" por ${users.get(review.value.user).realName} (${review.value.rank}).\n \n"
+            reviewText += "\"${review.value.first.comment}\"\nPor: ${users.get(review.value.first.user).realName} - Rank: ${review.value.first.rank} - Publicado: ${Tools.dateFormat(review.value.first.date)}\n \n"
         }
 
         return reviewText
+    }
+
+    fun emptyMovie(): Movie
+    {
+        return Movie(id = "", name = "", genre = "", year = 0, synopsis = "", director = "")
     }
 
 }

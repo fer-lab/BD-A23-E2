@@ -1,10 +1,17 @@
 package fo.utilities.cli
 
-class Options(val description: String, val mode: OptionsKeyTypes = OptionsKeyTypes.NUMBER)  {
+open class Options(private var description: String, private val mode: OptionsKeyTypes = OptionsKeyTypes.NUMBER)  {
 
     private val options: ArrayList<Option> = ArrayList<Option>()
     private val dictionary: HashMap<Int, Char> = createDictionary()
     var hideHeader: Boolean = false
+
+    fun setDescription(description: String): Options
+    {
+        this.description = description
+        return this
+    }
+
 
     fun add(label: String, key: String ? = null): Options
     {
@@ -156,5 +163,15 @@ class Options(val description: String, val mode: OptionsKeyTypes = OptionsKeyTyp
     fun getOptions(): ArrayList<Option>
     {
         return options
+    }
+
+    fun getDescription(): String
+    {
+        return description
+    }
+
+    fun getKeyMode(): OptionsKeyTypes
+    {
+        return mode
     }
 }

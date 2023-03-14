@@ -18,8 +18,7 @@ open class Banner {
         }
 
 
-
-        if (body != null)
+        if (!body.isNullOrEmpty())
         {
             displayBody(body)
         }
@@ -47,26 +46,33 @@ open class Banner {
         }
     }
 
-    private fun displayTitle(content: String)
+    private fun displayTitle(content: String, upperLine: Boolean = true, bottomLine: Boolean = true)
     {
-        displayLine(content= content, upperLine = true, bottomLine = true)
+        displayLine(content= content, upperLine, bottomLine)
     }
 
-    fun displayBody(content: String)
+    fun displayBody(content: String, bottomLine: Boolean = true)
     {
-        if (content.contains("\n"))
+        if (content.isNotEmpty())
         {
-            for(line in content.split("\n"))
+
+            if (content.contains("\n"))
             {
-                displayLine(line)
+                for(line in content.split("\n"))
+                {
+                    displayLine(line)
+                }
+            }
+            else
+            {
+                displayLine(content)
+            }
+
+            if (bottomLine)
+            {
+                boxBottom()
             }
         }
-        else
-        {
-            displayLine(content)
-        }
-
-        boxBottom()
     }
 
     private fun boxTop()
@@ -123,6 +129,17 @@ open class Banner {
         fun display(title: String, body: String? = null)
         {
             Banner().display(title = title, body)
+        }
+        fun line(content: String, upperLine: Boolean = false, bottomLine: Boolean = false)
+        {
+            Banner().displayLine(content, upperLine, bottomLine)
+        }
+        fun body(content: String, bottomLine: Boolean = true)
+        {
+            if (content.isNotEmpty())
+            {
+                Banner().displayBody(content, bottomLine)
+            }
         }
 
     }

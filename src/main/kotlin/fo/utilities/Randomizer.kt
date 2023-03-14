@@ -1,11 +1,8 @@
 package fo.utilities
 
 import fo.*
+import t6.Movie
 import java.io.File
-import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZoneOffset
-import java.util.concurrent.ThreadLocalRandom
 
 class Randomizer {
 
@@ -18,7 +15,7 @@ class Randomizer {
             for(movie in randomMovies(5))
             {
                 val fakeReview = randomReview()
-                reviews.add(movie.value.id, user.value.id, fakeReview.rank, fakeReview.comment, randomDate())
+                reviews.add(user.value.id, movie.value.id, fakeReview.rank, fakeReview.comment, Tools.randomDate())
             }
         }
     }
@@ -31,13 +28,13 @@ class Randomizer {
         {
             for(movie in randomMovies(5))
             {
-                likes.add(movie.value.id, user.value.id, randomDate())
+                likes.add(user.value.id, movie.value.id, Tools.randomDate())
             }
         }
     }
 
 
-    fun randomMovies(take: Int): Map<Int, Movie>
+    fun randomMovies(take: Int): Map<String, Movie>
     {
 
         val allMovies = Movies().getAll().values.toList()
@@ -80,12 +77,4 @@ class Randomizer {
         return fakeComments.random()
     }
 
-    fun randomDate(): Long {
-        val startDate = LocalDate.now().minusMonths(6)
-        val endDate = LocalDate.now()
-        val startDateTime = LocalDateTime.of(startDate, LocalDateTime.MIN.toLocalTime())
-        val endDateTime = LocalDateTime.of(endDate, LocalDateTime.MAX.toLocalTime())
-        val randomDateTime = startDateTime.plusSeconds(ThreadLocalRandom.current().nextLong(startDateTime.toEpochSecond(ZoneOffset.UTC), endDateTime.toEpochSecond(ZoneOffset.UTC)))
-        return randomDateTime.toEpochSecond(ZoneOffset.UTC)
-    }
 }

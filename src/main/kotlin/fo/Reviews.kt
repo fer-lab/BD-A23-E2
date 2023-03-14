@@ -1,60 +1,61 @@
 package fo
 
 import fo.utilities.Storage
+import fo.utilities.Tools
+import t6.Movie
+import t6.Review
+import t6.Reviews
 import java.util.*
 
-class Reviews {
+class Reviews: Reviews {
 
-    private fun getAll(): Map<String, Review> {
 
-        return Storage.reviews.associateBy { it.id }
-    }
+    override fun getAll(): Map<String, Pair<Review, Movie>> {
 
-    fun get(id: String): Review {
-
-        val review = getAll().values.firstOrNull{ it.id == id }
-
-        if (review != null) {
-            return review
-        }
-
-        return emptyReview()
-    }
-
-    fun userReview(userId: Int, movieId: Int): Review
-    {
-        val review = userReviews(userId).values.firstOrNull { it.movie == movieId }
-
-        if (review != null)
+        val list: MutableMap<String, Pair<Review, Movie>> = mutableMapOf()
+        for(review in Storage.reviews)
         {
-            return review
+            list[review.id] = Pair(review, Movies().get(review.movie))
         }
 
-        return emptyReview()
+        return list
+
     }
 
-    fun userReviews(userId: Int): Map<String, Review>
-    {
-        return getAll().values.filter { it.user == userId }.associateBy { it.id }
+    override fun get(id: String): Review {
+
+        return getAll().values.firstOrNull{ it.first.id == id }?.first ?: emptyReview()
     }
 
-    fun movieReviews(movieId: Int): Map<String, Review>
+    override fun getByUserAndMovie(userId: String, movieId: String): Review
     {
-        return getAll().values.filter { it.movie == movieId }.associateBy { it.id }
+        return getAll().values.firstOrNull{ it.first.user == userId && it.first.movie == movieId }?.first ?: emptyReview()
     }
 
-    fun add(movieId: Int, userId: Int, rank: Int, comment: String, date: Long = System.currentTimeMillis())
+    override fun getByUser(userId: String): Map<String, Pair<Review, Movie>>
     {
-        val newReview = Review(id = UUID.randomUUID().toString(), date, user=userId, movie=movieId, rank, comment)
+        return getAll().filterValues { it.first.user == userId }
+    }
+
+    override fun getByMovie(movieId: String): Map<String, Pair<Review, Movie>>
+    {
+        return getAll().filterValues { it.first.movie == movieId }
+    }
+
+
+    override fun add(userId: String, movieId: String, rank: Int, comment: String, date: Long ?): Review {
+
+        val newReview = Review(id = UUID.randomUUID().toString(), userId, movieId, rank, comment, date ?: Tools.currentDate())
         val user = Users().get(userId)
         val movie = Movies().get(movieId)
 
-        if (!user.isValid())
+
+        if (user.id.isEmpty())
         {
             throw Exception("El usuario no existe")
         }
 
-        if (!movie.isValid())
+        if (movie.id.isEmpty())
         {
             throw Exception("La película no existe")
         }
@@ -66,21 +67,23 @@ class Reviews {
             throw Exception("Ya existe una reseña del usuario ${user.userName} para la película ${movie.name}")
         }
 
+        return newReview
+
     }
 
-    fun remove(userId: Int, movieId: Int)
+    override fun remove(id: String)
     {
-        val review = userReview(userId, movieId)
 
-        if (review.isValid())
+        if (id.isNotEmpty())
         {
-            Storage.reviews.removeAll{it.id == review.id}
+            Storage.reviews.removeAll{it.id == id}
         }
 
     }
 
     private fun emptyReview(): Review
     {
-        return Review("", 0L, 0, 0, 0, "")
+        return Review("", "", "", 0, "", 0L)
     }
+
 }

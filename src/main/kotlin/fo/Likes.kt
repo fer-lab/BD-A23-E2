@@ -1,68 +1,62 @@
 package fo
 
 import fo.utilities.Storage
+import fo.utilities.Tools
+import t6.Like
+import t6.Likes
+import t6.Movie
 import java.util.*
 
-class Likes {
+class Likes: Likes {
 
     private val movies: Movies = Movies()
 
-    private fun getAll(): Map<String, Like> {
 
-        return Storage.likes.associateBy { it.id }
-    }
+    override fun getAll(): Map<String, Pair<Like, Movie>> {
 
-    fun get(id: String): Like {
-
-        val like = getAll().values.firstOrNull{ it.id == id }
-
-        if (like != null) {
-            return like
-        }
-
-        return Like(id = "", 0L, 0, 0)
-    }
-
-
-    fun userLike(userId: Int, movieId: Int): Like
-    {
-        val like = getAll().values.filter { it.user == userId }.associateBy { it.id }.values.firstOrNull { it.movie == movieId }
-
-        if (like != null)
+        val likes: MutableMap<String, Pair<Like, Movie>> = mutableMapOf()
+        for(like in Storage.likes)
         {
-            return like
+            likes[like.id] = Pair(like, movies.get(like.movie))
         }
 
-        return Like("", 0L, 0, 0)
+        return likes
     }
 
-    fun userLikes(userId: Int): Map<Int, Movie>
+    override fun get(id: String): Like {
+
+        return getAll().values.firstOrNull{ it.first.id == id }?.first ?: emptyLike()
+    }
+
+    private fun emptyLike(): Like
     {
-        val movieList: MutableMap<Int, Movie> = mutableMapOf<Int, Movie>()
-        for (like in getAll().values.filter { it.user == userId })
-        {
-            val movie = movies.get(like.movie)
-            if (movie.isValid())
-            {
-                movieList[movie.id] = movie
-            }
-        }
-        return movieList
+        return Like("", "", "", 0L)
     }
 
 
-    fun add(movieId: Int, userId: Int, date: Long = System.currentTimeMillis())
+    fun userLike(userId: String, movieId: String): Like
     {
-        val newLike = Like(id = UUID.randomUUID().toString(), date, user=userId, movie=movieId)
+        return getAll().values.find { it.first.user == userId && it.first.movie == movieId }?.first ?: emptyLike()
+    }
+
+    override fun getByUser(userId: String): Map<String, Pair<Like, Movie>>
+    {
+        return getAll().filterValues { it.first.user == userId }
+    }
+
+
+    override fun add(userId: String, movieId: String, date: Long ?): Like
+    {
+        val newLike = Like(id = UUID.randomUUID().toString(), date=date ?: Tools.currentDate(), user=userId, movie=movieId)
         val user = Users().get(userId)
         val movie = Movies().get(movieId)
 
-        if (!user.isValid())
+        if (user.id.isEmpty())
         {
             throw Exception("El usuario no existe")
         }
 
-        if (!movie.isValid())
+        if (movie.id.isEmpty())
         {
             throw Exception("La película no existe")
         }
@@ -71,12 +65,15 @@ class Likes {
             Storage.likes.add(newLike)
         }
 
-    }
-    fun remove(userId: Int, movieId: Int)
-    {
-        val like = userLike(userId, movieId)
+        return newLike
 
-        if (like.isValid())
+    }
+
+    override fun remove(id: String)
+    {
+        val like = get(id)
+
+        if (like.id.isNotEmpty())
         {
             Storage.likes.removeAll{it.id == like.id}
         }

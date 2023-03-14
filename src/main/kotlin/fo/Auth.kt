@@ -1,16 +1,18 @@
 package fo
 
 import fo.utilities.cli.Banner
+import t6.User
+import t6.UserType
 
 class Auth {
 
     companion object
     {
-        private var currentUser: User = User(0, "", "", "", "")
+        private var currentUser: User = User("", "", "", UserType.USER, "")
 
         fun user(): User
         {
-            if (currentUser.isValid())
+            if (currentUser.id.isNotEmpty())
             {
                 return currentUser
             }
@@ -22,7 +24,7 @@ class Auth {
 
         fun logOut()
         {
-            currentUser = User(0, "", "", "", "")
+            currentUser = User("", "", "", UserType.USER, "")
             App().run()
         }
     }
@@ -50,7 +52,7 @@ class Auth {
 
             val user = Users().getByUserName(userName)
 
-            if (user.validPasswd(passwd)) {
+            if (user.id.isNotEmpty() && user.userPasswd == passwd) {
                 currentUser = user
                 loggedIn = true
             } else {
