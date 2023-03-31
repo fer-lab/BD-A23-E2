@@ -1,4 +1,4 @@
-import movieRew.App
+import movieRiew.App
 
 fun main(args: Array<String>) {
 
