@@ -1,5 +1,6 @@
 package movieRiew
 
+import kotlinx.coroutines.*
 import movieRiew.utilities.cli.Banner
 
 class Auth {
@@ -20,12 +21,41 @@ class Auth {
             return currentUser
         }
 
-        fun logOut()
-        {
+        suspend fun logOut() = withContext(Dispatchers.IO) {
+            val job = launch {
+                delay(2000L)
+                println("Sesión Finalizada...\n\n\n")
+                delay(1000L)
+            }
+            println("Cerrando sesión...")
+            job.join()
             currentUser = User("", "", "", UserType.USER, "")
             App().run()
         }
+
+        fun logOutx()
+        {
+
+
+
+            runBlocking {
+
+                launch {
+                    delay(2000L)
+                    println("Sesión FInalizada...\n\n\n")
+                }
+                println("Cerrando sesión...")
+
+            }
+
+            currentUser = User("", "", "", UserType.USER, "")
+            App().run()
+        }
+
     }
+
+
+
 
 
     private fun loginScreen()

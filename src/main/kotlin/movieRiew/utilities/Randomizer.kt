@@ -1,10 +1,6 @@
 package movieRiew.utilities
 
-import movieRiew.Likes
-import movieRiew.Movies
-import movieRiew.Reviews
-import movieRiew.Users
-import movieRiew.Movie
+import movieRiew.*
 import java.io.File
 
 class Randomizer {
@@ -17,7 +13,7 @@ class Randomizer {
         {
             for(movie in randomMovies(5))
             {
-                val fakeReview = randomReview()
+                val fakeReview = fakeComments.random()
                 reviews.add(user.value.id, movie.value.id, fakeReview.rank, fakeReview.comment, Tools.randomDate())
             }
         }
@@ -37,13 +33,13 @@ class Randomizer {
     }
 
 
-    fun randomMovies(take: Int): Map<String, Movie>
+    private fun randomMovies(take: Int): Map<String, Movie>
     {
 
         val allMovies = Movies().getAll().values.toList()
         val selectedMovies = mutableSetOf<Movie>()
 
-        val requestedTake = if (take > allMovies.size) allMovies.size else take // ajustar si se solicita más de lo que existe
+        val requestedTake = if (take > allMovies.size) allMovies.size else take
 
         while (selectedMovies.size < requestedTake) {
             val randomMovie = allMovies.random()
@@ -57,15 +53,10 @@ class Randomizer {
 
     private fun loadFakeComments(): MutableList<FakeReview> {
 
-        val file = File(javaClass.getResource("db.comments.txt").toURI())
-        val csvString = file.readText()
         val reviews: MutableList<FakeReview> = mutableListOf()
 
-        csvString.lines().drop(1).forEach { line ->
-
-            val fields = line.split("|")
-
-            if (fields[0] != "") {
+        Storage.getDBFields("db.comments.txt").forEach { fields ->
+            if (fields[0].isNotEmpty()) {
                 reviews.add(FakeReview(fields[0], fields[1].toInt()))
             }
 
@@ -73,11 +64,6 @@ class Randomizer {
 
         return reviews
 
-    }
-
-    private fun randomReview(): FakeReview
-    {
-        return fakeComments.random()
     }
 
 }

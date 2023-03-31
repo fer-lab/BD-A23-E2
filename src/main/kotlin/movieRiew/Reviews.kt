@@ -7,17 +7,8 @@ import java.util.*
 class Reviews: ReviewsInterface {
 
 
-    override fun getAll(): Map<String, Pair<Review, Movie>> {
+    override fun getAll(): Map<String, Pair<Review, Movie>> = Storage.reviews.associate { it.id to (it to Movies().get(it.movie)) }
 
-        val list: MutableMap<String, Pair<Review, Movie>> = mutableMapOf()
-        for(review in Storage.reviews)
-        {
-            list[review.id] = Pair(review, Movies().get(review.movie))
-        }
-
-        return list
-
-    }
 
     override fun get(id: String): Review {
 
@@ -40,47 +31,34 @@ class Reviews: ReviewsInterface {
     }
 
 
-    override fun add(userId: String, movieId: String, rank: Int, comment: String, date: Long ?): Review {
+    override fun add(userId: String, movieId: String, rank: Int, comment: String, date: Long?): Review =
+        run {
+            val user = Users().get(userId)
+            val movie = Movies().get(movieId)
 
-        val newReview = Review(id = UUID.randomUUID().toString(), userId, movieId, rank, comment, date ?: Tools.currentDate())
-        val user = Users().get(userId)
-        val movie = Movies().get(movieId)
+            require(user.id.isNotEmpty()) { "El usuario no existe" }
+            require(movie.id.isNotEmpty()) { "La película no existe" }
+            require(Storage.reviews.none { it.user == userId && it.movie == movieId }) {
+                "Ya existe una reseña del usuario ${user.userName} para la película ${movie.name}"
+            }
 
-
-        if (user.id.isEmpty())
-        {
-            throw Exception("El usuario no existe")
+            Review(
+                id = UUID.randomUUID().toString(),
+                user = userId,
+                movie = movieId,
+                rank = rank,
+                comment = comment,
+                date = date ?: Tools.currentDate()
+            ).also { Storage.reviews.add(it) }
         }
 
-        if (movie.id.isEmpty())
-        {
-            throw Exception("La película no existe")
-        }
-
-        if (Storage.reviews.none { it.user == newReview.user && it.movie == newReview.movie }) {
-            Storage.reviews.add(newReview)
-        }
-        else {
-            throw Exception("Ya existe una reseña del usuario ${user.userName} para la película ${movie.name}")
-        }
-
-        return newReview
-
-    }
 
     override fun remove(id: String)
     {
-
-        if (id.isNotEmpty())
-        {
-            Storage.reviews.removeAll{it.id == id}
-        }
+        Storage.reviews.removeAll { it.id == id }
 
     }
 
-    private fun emptyReview(): Review
-    {
-        return Review("", "", "", 0, "", 0L)
-    }
+    private fun emptyReview(): Review = Review(id = "", movie = "", user = "", rank = 0, comment = "", date = 0L)
 
 }
