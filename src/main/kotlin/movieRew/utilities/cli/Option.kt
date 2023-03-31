@@ -1,4 +1,4 @@
-package utilities.cli
+package movieRew.utilities.cli
 
 class Option(val label: String, val key: String) {
 

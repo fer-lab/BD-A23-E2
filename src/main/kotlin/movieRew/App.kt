@@ -1,10 +1,10 @@
-import utilities.GoToAction
-import utilities.GoToEntity
-import utilities.GoToMenu
-import utilities.cli.Banner
-import utilities.cli.UI
-import movieRew.Movie
-import movieRew.User
+package movieRew
+
+import movieRew.utilities.GoToAction
+import movieRew.utilities.GoToEntity
+import movieRew.utilities.GoToMenu
+import movieRew.utilities.cli.Banner
+import movieRew.utilities.cli.UI
 
 open class App {
 

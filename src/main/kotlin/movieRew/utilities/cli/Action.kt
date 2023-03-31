@@ -1,4 +1,4 @@
-package utilities.cli
+package movieRew.utilities.cli
 
 class Action: Banner() {
 

@@ -1,4 +1,4 @@
-package utilities
+package movieRew.utilities
 
 import java.text.SimpleDateFormat
 import java.util.*

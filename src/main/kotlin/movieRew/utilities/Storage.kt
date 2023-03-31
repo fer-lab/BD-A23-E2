@@ -1,4 +1,4 @@
-package utilities
+package movieRew.utilities
 
 import movieRew.*
 import java.io.File

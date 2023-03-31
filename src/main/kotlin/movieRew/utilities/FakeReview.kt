@@ -1,4 +1,4 @@
-package utilities
+package movieRew.utilities
 
 data class FakeReview (
     val comment: String,

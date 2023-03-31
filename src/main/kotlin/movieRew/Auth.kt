@@ -1,6 +1,6 @@
-import utilities.cli.Banner
-import movieRew.User
-import movieRew.UserType
+package movieRew
+
+import movieRew.utilities.cli.Banner
 
 class Auth {
 

@@ -1,3 +1,5 @@
+package movieRew
+
 enum class AppMenu {
     HOME,
     MY_MOVIES,

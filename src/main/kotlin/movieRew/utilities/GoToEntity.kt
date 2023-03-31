@@ -1,6 +1,6 @@
-package utilities
+package movieRew.utilities
 
-import AppMenu
+import movieRew.AppMenu
 
 abstract class GoToEntity {
 

@@ -1,9 +1,9 @@
-package utilities
+package movieRew.utilities
 
-import Likes
-import Movies
-import Reviews
-import Users
+import movieRew.Likes
+import movieRew.Movies
+import movieRew.Reviews
+import movieRew.Users
 import movieRew.Movie
 import java.io.File
 

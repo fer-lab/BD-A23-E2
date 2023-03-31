@@ -1,6 +1,6 @@
-package utilities.cli
+package movieRew.utilities.cli
 
-import utilities.GoToEntity
+import movieRew.utilities.GoToEntity
 
 class UI(private var title: String = "") {
 

@@ -1,9 +1,9 @@
-package utilities.cli
+package movieRew.utilities.cli
 
-import App
-import AppMenu
-import utilities.GoToEntity
-import utilities.GoToMenu
+import movieRew.App
+import movieRew.AppMenu
+import movieRew.utilities.GoToEntity
+import movieRew.utilities.GoToMenu
 
 class UIDefaultActions: Options("", OptionsKeyTypes.NUMBER) {
     private lateinit var _goto: GoToEntity

@@ -1,4 +1,4 @@
-package utilities.cli
+package movieRew.utilities.cli
 
 open class Options(private var description: String, private val mode: OptionsKeyTypes = OptionsKeyTypes.NUMBER)  {
 

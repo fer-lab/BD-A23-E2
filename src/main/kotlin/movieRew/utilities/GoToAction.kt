@@ -1,4 +1,4 @@
-package utilities
+package movieRew.utilities
 
 class GoToAction : GoToEntity {
     constructor(action: () -> Unit)

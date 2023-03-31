@@ -1,4 +1,4 @@
-package utilities.cli
+package movieRew.utilities.cli
 
 class OptionsResponse(private val response: String, private val options: ArrayList<Option>) {
     fun isValid(): Boolean
