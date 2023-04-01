@@ -15,21 +15,17 @@ open class App {
     val likes: Likes = Likes()
     val reviews: Reviews = Reviews()
 
-    companion object
-    {
-        fun devMode(): Boolean
-        {
+    companion object {
+        fun devMode(): Boolean {
             return false
         }
     }
 
-    fun run()
-    {
+    fun run() {
         homeUser()
     }
 
-    private fun homeUser()
-    {
+    private fun homeUser() {
         val ui = UI("Hola ${user.realName}! Bienvenido a MovieRew")
         ui.actions()
             .setDescription("¿Qué quieres hacer?")
@@ -55,18 +51,22 @@ open class App {
 
         val myMoviesList = likes.getByUser(user.id).values.mapIndexed { index, pair -> (index + 1) to pair }.toMap()
 
-        if (myMoviesList.isEmpty())
-        {
+        if (myMoviesList.isEmpty()) {
             ui.setActionDescription("No existen películas favoritas")
         }
 
         for (data in myMoviesList) {
-            ui.actions().add("${data.value.second.name} (${data.value.second.year}, ${data.value.second.director})", data.key.toString())
+            ui.actions().add(
+                "${data.value.second.name} (${data.value.second.year}, ${data.value.second.director})",
+                data.key.toString()
+            )
         }
 
-        if (myMoviesList.containsKey(ui.response().toInt()))
-        {
-            displayMovie(myMoviesList[ui.response().toInt()]?.second ?: movies.emptyMovie(), GoToMenu(AppMenu.MY_MOVIES))
+        if (myMoviesList.containsKey(ui.response().toInt())) {
+            displayMovie(
+                myMoviesList[ui.response().toInt()]?.second ?: movies.emptyMovie(),
+                GoToMenu(AppMenu.MY_MOVIES)
+            )
         }
 
     }
@@ -79,8 +79,7 @@ open class App {
 
         val myReviews = reviews.getByUser(user.id).values.mapIndexed { index, pair -> (index + 1) to pair }.toMap()
 
-        if (myReviews.isEmpty())
-        {
+        if (myReviews.isEmpty()) {
             ui.setActionDescription("No existen reseñas")
         }
 
@@ -89,8 +88,7 @@ open class App {
             ui.actions().add("${movie.name} (${movie.year}, ${movie.director})", data.key.toString())
         }
 
-        if (myReviews.containsKey(ui.response().toInt()))
-        {
+        if (myReviews.containsKey(ui.response().toInt())) {
             displayMovie(myReviews[ui.response().toInt()]?.second ?: movies.emptyMovie(), GoToMenu(AppMenu.MY_REVIEWS))
         }
     }
@@ -128,7 +126,7 @@ open class App {
     }
 
     private fun removeReview(movie: Movie, back: GoToEntity) {
-        val review = reviews.getByUser(user.id).entries.firstOrNull() { it.value.first.movie == movie.id } ?.value?.first
+        val review = reviews.getByUser(user.id).entries.firstOrNull { it.value.first.movie == movie.id }?.value?.first
 
         review?.let {
             reviews.remove(it.id)
@@ -142,38 +140,31 @@ open class App {
 
         likes.add(user.id, movie.id, null)
         Banner.display("!Película Agregada!")
-        GoToAction.action(fun()
-        {
+        GoToAction.action(fun() {
             displayMovie(movie, back)
         }, 3)
 
 
     }
 
-    private fun removeLike(movie: Movie, back: GoToEntity)
-    {
+    private fun removeLike(movie: Movie, back: GoToEntity) {
         val like = likes.userLike(user.id, movie.id)
 
-        if (like.id.isNotEmpty())
-        {
+        if (like.id.isNotEmpty()) {
             likes.remove(like.id)
             Banner.display("!Película Eliminada!")
 
-        }
-        else
-        {
+        } else {
             Banner.display("La película no estaba en tus favoritos...")
 
         }
 
-        GoToAction.action(fun()
-        {
+        GoToAction.action(fun() {
             displayMovie(movie, back)
         }, 3)
     }
 
-    private fun homeMovies()
-    {
+    private fun homeMovies() {
 
         val ui = UI("Catálogo de Películas")
         ui.setActionDescription("Elije una opción")
@@ -194,16 +185,14 @@ open class App {
         ui.setBack(GoToMenu(AppMenu.MOVIES_ALL))
         ui.setActionDescription("Elije un género")
 
-        val genresMap = movies.getGenres().mapIndexed { index, element -> (index + 1) to element }.toMap()
+        val genresMap = movies.genres.mapIndexed { index, element -> (index + 1) to element }.toMap()
 
-        for (genre in genresMap)
-        {
+        for (genre in genresMap) {
             ui.actions().add(genre.value, genre.key.toString())
         }
 
 
-        if (genresMap.containsKey(ui.response().toInt()))
-        {
+        if (genresMap.containsKey(ui.response().toInt())) {
             displayMoviesByGenre(genresMap[ui.response().toInt()].toString())
         }
 
@@ -219,15 +208,12 @@ open class App {
 
         val movieMap = movies.getByGenre(genre).values.mapIndexed { index, movie -> (index + 1) to movie }.toMap()
 
-        for (movie in movieMap)
-        {
+        for (movie in movieMap) {
             ui.actions().add("${movie.value.name} (${movie.value.year}, ${movie.value.director})", movie.key.toString())
         }
 
-        if (movieMap.containsKey(ui.response().toInt()))
-        {
-            displayMovie(movieMap[ui.response().toInt()]!!, GoToAction(fun()
-            {
+        if (movieMap.containsKey(ui.response().toInt())) {
+            displayMovie(movieMap[ui.response().toInt()]!!, GoToAction(fun() {
                 displayMoviesByGenre(genre)
             }))
 
@@ -241,15 +227,13 @@ open class App {
         val ui = UI("Catálogo de Películas por Año")
         ui.setActionDescription("Elije un año")
 
-        val yearMap = movies.getYears().mapIndexed { index, element -> (index + 1) to element }.toMap()
+        val yearMap = movies.years.mapIndexed { index, element -> (index + 1) to element }.toMap()
 
-        for (year in yearMap)
-        {
+        for (year in yearMap) {
             ui.actions().add(year.value.toString(), year.key.toString())
         }
 
-        if (yearMap.containsKey(ui.response().toInt()))
-        {
+        if (yearMap.containsKey(ui.response().toInt())) {
             displayMoviesByYear(yearMap[ui.response().toInt()]!!.toInt())
         }
 
@@ -263,16 +247,13 @@ open class App {
 
         val movieMap = movies.getByYear(year).values.mapIndexed { index, movie -> (index + 1) to movie }.toMap()
 
-        for (movie in movieMap)
-        {
+        for (movie in movieMap) {
             ui.actions().add("${movie.value.name} (${movie.value.year}, ${movie.value.director})", movie.key.toString())
         }
 
 
-        if (movieMap.containsKey(ui.response().toInt()))
-        {
-            displayMovie(movieMap[ui.response().toInt()]!!, GoToAction(fun()
-            {
+        if (movieMap.containsKey(ui.response().toInt())) {
+            displayMovie(movieMap[ui.response().toInt()]!!, GoToAction(fun() {
                 displayMoviesByYear(year)
             }))
 
@@ -280,11 +261,9 @@ open class App {
 
     }
 
-    fun goto(goto: GoToEntity, delay: Int = 0, delayMessage: String = "")
-    {
+    fun goto(goto: GoToEntity, delay: Int = 0, delayMessage: String = "") {
 
-        if (goto.isMenu())
-        {
+        if (goto.isMenu()) {
             when (goto.getMenu()) {
                 AppMenu.HOME -> GoToAction.action(fun() { homeUser() }, delay, delayMessage)
                 AppMenu.LOGOUT -> GoToAction.action(fun() { runBlocking { Auth.logOut() } }, delay, delayMessage)
@@ -295,20 +274,15 @@ open class App {
                 AppMenu.MOVIES_BY_YEAR -> GoToAction.action(fun() { moviesByYear() }, delay, delayMessage)
                 else -> homeUser()
             }
-        }
-        else if (goto.isAction())
-        {
+        } else if (goto.isAction()) {
             GoToAction.action(goto.getAction(), delay, delayMessage)
-        }
-        else
-        {
+        } else {
             homeUser()
         }
 
     }
 
-    private fun displayMovie(movie: Movie, backTo: GoToEntity)
-    {
+    private fun displayMovie(movie: Movie, backTo: GoToEntity) {
         val ui = UI("${movie.name} (${movie.year}, ${movie.director})")
         ui.setActionDescription("¿Qué quieres hacer?")
         ui.setBack(backTo)
@@ -316,7 +290,7 @@ open class App {
         ui.addBody(movie.synopsis)
         ui.addBody("Género: ${movie.genre}\nRating: ${movies.parseRating(movie)}\n${movies.parseReviews(movie)}")
 
-        val reviewExist = reviews.getByUser(user.id).values.any { it.first.movie == movie.id}
+        val reviewExist = reviews.getByUser(user.id).values.any { it.first.movie == movie.id }
         val likeExist = likes.getByUser(user.id).values.any { it.first.movie == movie.id }
 
         ui.actions().add(if (reviewExist) "Remover Reseña" else "Realizar Reseña")

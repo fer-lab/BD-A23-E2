@@ -8,10 +8,8 @@ class Randomizer {
     fun generateRandomReviews() {
 
         val reviews = Reviews()
-        for (user in Users().getAll())
-        {
-            for(movie in randomMovies(5))
-            {
+        for (user in Users().getAll()) {
+            for (movie in randomMovies(5)) {
                 val fakeReview = fakeComments.random()
                 reviews.add(user.value.id, movie.value.id, fakeReview.rank, fakeReview.comment, Tools.randomDate())
             }
@@ -22,18 +20,15 @@ class Randomizer {
     fun generateRandomLikes() {
 
         val likes = Likes()
-        for (user in Users().getAll())
-        {
-            for(movie in randomMovies(5))
-            {
+        for (user in Users().getAll()) {
+            for (movie in randomMovies(5)) {
                 likes.add(user.value.id, movie.value.id, Tools.randomDate())
             }
         }
     }
 
 
-    private fun randomMovies(take: Int): Map<String, Movie>
-    {
+    private fun randomMovies(take: Int): Map<String, Movie> {
 
         val allMovies = Movies().getAll().values.toList()
         val selectedMovies = mutableSetOf<Movie>()

@@ -1,50 +1,41 @@
 package movieRiew.utilities.cli
 
-open class Options(private var description: String, private val mode: OptionsKeyTypes = OptionsKeyTypes.NUMBER)  {
+open class Options(private var description: String, private val mode: OptionsKeyTypes = OptionsKeyTypes.NUMBER) {
 
     private val options: ArrayList<Option> = ArrayList<Option>()
     private val dictionary: HashMap<Int, Char> = createDictionary()
     var hideHeader: Boolean = false
 
-    fun setDescription(description: String): Options
-    {
+    fun setDescription(description: String): Options {
         this.description = description
         return this
     }
 
 
-    fun add(label: String, key: String ? = null): Options
-    {
+    fun add(label: String, key: String? = null): Options {
         options.add(Option(key = key ?: nextKey(), label = label))
         return this
     }
 
-    fun addDivisor(): Options
-    {
+    fun addDivisor(): Options {
         return add("__divisor__", "99999")
 
     }
 
-    fun get(tryAgain: Boolean = false, warning: String ? = null): OptionsResponse
-    {
+    fun get(tryAgain: Boolean = false, warning: String? = null): OptionsResponse {
         displayOptions()
 
         var response = OptionsResponse(getResponse(), options)
 
-        val displayWarning = fun(warning: String)
-        {
-            if (warning != "")
-            {
+        val displayWarning = fun(warning: String) {
+            if (warning != "") {
                 println("*** $warning ***")
-            }
-            else
-            {
+            } else {
                 println("*** Opción Inválida ***")
             }
         }
 
-        if (!response.isValid() && tryAgain)
-        {
+        if (!response.isValid() && tryAgain) {
 
             while (true) {
                 displayWarning(warning.orEmpty())
@@ -54,9 +45,7 @@ open class Options(private var description: String, private val mode: OptionsKey
                 }
             }
 
-        }
-        else if (!response.isValid())
-        {
+        } else if (!response.isValid()) {
             displayWarning(warning.orEmpty())
         }
 
@@ -66,42 +55,32 @@ open class Options(private var description: String, private val mode: OptionsKey
     private fun displayOptions() {
         var body = ""
 
-        if (hideHeader && description.isNotEmpty())
-        {
+        if (hideHeader && description.isNotEmpty()) {
             body += description + "\n  \n "
         }
 
-        if (options.size > 0)
-        {
-            for (option in options)
-            {
+        if (options.size > 0) {
+            for (option in options) {
                 body += if (option.label == "__divisor__") "  \n" else "${option.key}. ${option.label}\n"
             }
-        }
-        else
-        {
+        } else {
             body = "No existen opciones"
         }
 
-        if (hideHeader)
-        {
+        if (hideHeader) {
             Banner.display("", body.trim())
-        }
-        else
-        {
+        } else {
             Banner.display(this.description, body.trim())
         }
     }
 
-    private fun getResponse(): String
-    {
+    private fun getResponse(): String {
         print(": ")
         return (readLine() as String).toLowerCase().trim()
     }
 
 
-    fun nextKey(): String
-    {
+    fun nextKey(): String {
         val nextItem: Int = (options.size + 1)
 
         return if (isModeNumber()) {
@@ -130,8 +109,7 @@ open class Options(private var description: String, private val mode: OptionsKey
         }
     }
 
-    private fun createDictionary(): HashMap<Int, Char>
-    {
+    private fun createDictionary(): HashMap<Int, Char> {
         var value: Char
         var key: Int
         val map = HashMap<Int, Char>()
@@ -148,23 +126,19 @@ open class Options(private var description: String, private val mode: OptionsKey
         return map
     }
 
-    fun size(): Int
-    {
+    fun size(): Int {
         return options.size
     }
 
-    fun getOptions(): ArrayList<Option>
-    {
+    fun getOptions(): ArrayList<Option> {
         return options
     }
 
-    fun getDescription(): String
-    {
+    fun getDescription(): String {
         return description
     }
 
-    fun getKeyMode(): OptionsKeyTypes
-    {
+    fun getKeyMode(): OptionsKeyTypes {
         return mode
     }
 }

@@ -7,7 +7,7 @@ interface LikesInterface {
 
     fun getAll(): Map<String, Pair<Like, Movie>>
 
-    fun add(userId: String, movieId: String, date: Long ?): Like
+    fun add(userId: String, movieId: String, date: Long?): Like
 
     fun remove(id: String)
 }

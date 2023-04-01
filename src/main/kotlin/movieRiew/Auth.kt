@@ -13,14 +13,11 @@ import kotlin.system.exitProcess
 
 class Auth {
 
-    companion object
-    {
+    companion object {
         private var currentUser: User = User("", "", "", UserType.USER, "")
 
-        fun user(): User
-        {
-            if (currentUser.id.isNotEmpty())
-            {
+        fun user(): User {
+            if (currentUser.id.isNotEmpty()) {
                 return currentUser
             }
 
@@ -45,13 +42,8 @@ class Auth {
     }
 
 
-
-
-
-    private fun loginScreen()
-    {
-        if (App.devMode())
-        {
+    private fun loginScreen() {
+        if (App.devMode()) {
             currentUser = Users().getByUserName("user1")
             return
         }
@@ -71,15 +63,14 @@ class Auth {
                 newAccount()
                 loginScreen()
             })
+
             "x" -> exitProcess(0)
         }
 
     }
 
 
-
-    private fun loginPrompt()
-    {
+    private fun loginPrompt() {
 
         Banner.display("Inicio de Sesión", "Ingresa tu usuario y contraseña.")
 
@@ -102,15 +93,13 @@ class Auth {
 
     }
 
-    private fun newAccount()
-    {
+    private fun newAccount() {
         Banner.display("Crear Cuenta", "Ingresa tu nombre, nombre de usuario y contraseña.")
 
         print("nombre: ")
         val realName = (readLine() as String).trim().toLowerCase()
 
-        if (realName.isEmpty())
-        {
+        if (realName.isEmpty()) {
             UI.displayError("El nombre es inválido", 1)
             return
         }
@@ -118,25 +107,30 @@ class Auth {
         print("usuario: ")
         val userName = (readLine() as String).trim().toLowerCase()
 
-        if (userName.isEmpty())
-        {
+        if (userName.isEmpty()) {
             UI.displayError("El usuario es inválido", 1)
             return
-        }
-        else if (Users().getByUserName(userName).id.isNotEmpty()) {
+        } else if (Users().getByUserName(userName).id.isNotEmpty()) {
             UI.displayError("El usuario ya existe", 1)
             return
         }
 
         print("contraseña: ")
         val passwd = (readLine() as String).trim().toLowerCase()
-        if (passwd.isEmpty())
-        {
+        if (passwd.isEmpty()) {
             UI.displayError("La contraseña es inválida", 2)
             return
         }
 
-        Storage.users.add(User(id = Tools.uuid(), userName = userName, realName = realName, userPasswd = passwd, userType = UserType.USER))
+        Storage.users.add(
+            User(
+                id = Tools.uuid(),
+                userName = userName,
+                realName = realName,
+                userPasswd = passwd,
+                userType = UserType.USER
+            )
+        )
 
         println("\n\nUsiario creado!\n\n")
         GoToAction.setDelay(2, "")

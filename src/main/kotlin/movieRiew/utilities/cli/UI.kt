@@ -11,67 +11,56 @@ class UI(private var title: String = "") {
     private var actions: Options = Options("")
     private var actionsDefault: UIDefaultActions = UIDefaultActions()
 
-    fun setTitle(title: String): UI
-    {
+    fun setTitle(title: String): UI {
         this.title = title
         return this
     }
 
-    fun addBody(body: String): UI
-    {
+    fun addBody(body: String): UI {
         this.bodyList.add(body)
 
         return this
     }
 
-    fun actions(): Options
-    {
+    fun actions(): Options {
         return actions
     }
 
 
-    fun defaultActions(): UIDefaultActions
-    {
+    fun defaultActions(): UIDefaultActions {
         return actionsDefault
     }
 
-    fun response(): OptionsResponse
-    {
+    fun response(): OptionsResponse {
 
-        if (this::_response.isInitialized)
-        {
+        if (this::_response.isInitialized) {
             return _response
         }
 
         val options = Options(this.actions.getDescription(), this.actions.getKeyMode())
         options.hideHeader = true
 
-        for (option in this.actions.getOptions())
-        {
+        for (option in this.actions.getOptions()) {
             options.add(option.label, option.key)
         }
 
-        if (!actionsDefault.isDisabled())
-        {
+        if (!actionsDefault.isDisabled()) {
             actionsDefault.add("Volver", "V")
             actionsDefault.add("Menú Principal", "M")
             actionsDefault.add("Cerrar Sesión", "X")
         }
 
-        if (this.actionsDefault.size() > 0)
-        {
+        if (this.actionsDefault.size() > 0) {
             options.addDivisor()
 
-            for (option in this.actionsDefault.getOptions())
-            {
+            for (option in this.actionsDefault.getOptions()) {
                 options.add(option.label, option.key)
             }
         }
 
 
 
-        if (title.isNotEmpty())
-        {
+        if (title.isNotEmpty()) {
             Banner.display(title)
         }
 
@@ -82,8 +71,7 @@ class UI(private var title: String = "") {
 
         this._response = options.get(true)
 
-        if (!actionsDefault.isDisabled())
-        {
+        if (!actionsDefault.isDisabled()) {
             actionsDefault.defaultRoute(this._response)
         }
 
@@ -91,24 +79,21 @@ class UI(private var title: String = "") {
         return this._response
     }
 
-    fun defaultRoute(): Boolean
-    {
+    fun defaultRoute(): Boolean {
         return actionsDefault.defaultRoute(response())
     }
 
-    fun setBack(back: GoToEntity): UI
-    {
+    fun setBack(back: GoToEntity): UI {
         actionsDefault.setBack(back)
         return this
     }
 
-    fun setActionDescription(description: String): UI
-    {
+    fun setActionDescription(description: String): UI {
         actions().setDescription(description)
         return this
     }
 
-    fun addAction(label: String, key: String ? = null) {
+    fun addAction(label: String, key: String? = null) {
         actions().add(label, key)
     }
 
@@ -121,9 +106,10 @@ class UI(private var title: String = "") {
         fun displayError(message: String, delay: Int, waitingMessage: String? = null) {
             displayMessage(message, delay, waitingMessage)
         }
+
         fun displayMessage(message: String, delay: Int, waitingMessage: String? = null) {
             println("${message}\n")
-            GoToAction.setDelay(delay, waitingMessage?:"")
+            GoToAction.setDelay(delay, waitingMessage ?: "")
             Tools.newPage()
         }
     }

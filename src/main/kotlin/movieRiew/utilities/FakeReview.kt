@@ -1,6 +1,6 @@
 package movieRiew.utilities
 
-data class FakeReview (
+data class FakeReview(
     val comment: String,
     val rank: Int
 )

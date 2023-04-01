@@ -4,29 +4,28 @@ import movieRiew.utilities.Storage
 import movieRiew.utilities.Tools
 import java.util.*
 
-class Reviews: ReviewsInterface {
+class Reviews : ReviewsInterface {
 
 
-    override fun getAll(): Map<String, Pair<Review, Movie>> = Storage.reviews.associate { it.id to (it to Movies().get(it.movie)) }
+    override fun getAll(): Map<String, Pair<Review, Movie>> =
+        Storage.reviews.associate { it.id to (it to Movies().get(it.movie)) }
 
 
     override fun get(id: String): Review {
 
-        return getAll().values.firstOrNull{ it.first.id == id }?.first ?: emptyReview()
+        return getAll().values.firstOrNull { it.first.id == id }?.first ?: emptyReview()
     }
 
-    override fun getByUserAndMovie(userId: String, movieId: String): Review
-    {
-        return getAll().values.firstOrNull{ it.first.user == userId && it.first.movie == movieId }?.first ?: emptyReview()
+    override fun getByUserAndMovie(userId: String, movieId: String): Review {
+        return getAll().values.firstOrNull { it.first.user == userId && it.first.movie == movieId }?.first
+            ?: emptyReview()
     }
 
-    override fun getByUser(userId: String): Map<String, Pair<Review, Movie>>
-    {
+    override fun getByUser(userId: String): Map<String, Pair<Review, Movie>> {
         return getAll().filterValues { it.first.user == userId }
     }
 
-    override fun getByMovie(movieId: String): Map<String, Pair<Review, Movie>>
-    {
+    override fun getByMovie(movieId: String): Map<String, Pair<Review, Movie>> {
         return getAll().filterValues { it.first.movie == movieId }
     }
 
@@ -53,8 +52,7 @@ class Reviews: ReviewsInterface {
         }
 
 
-    override fun remove(id: String)
-    {
+    override fun remove(id: String) {
         Storage.reviews.removeAll { it.id == id }
 
     }

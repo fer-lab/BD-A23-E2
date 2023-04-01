@@ -7,5 +7,4 @@ data class Review(
     val rank: Int,
     val comment: String,
     val date: Long
-) {
-}
+)

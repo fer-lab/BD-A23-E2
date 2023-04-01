@@ -8,7 +8,7 @@ class Storage {
 
     companion object {
 
-        @kotlin.jvm.JvmField
+        @JvmField
         val movies: MutableList<Movie> = mutableListOf()
         val users: MutableList<User> = mutableListOf()
         val likes: MutableList<Like> = mutableListOf()

@@ -3,8 +3,7 @@ package movieRiew.utilities
 import kotlinx.coroutines.runBlocking
 
 class GoToAction : GoToEntity {
-    constructor(action: () -> Unit)
-    {
+    constructor(action: () -> Unit) {
         this._gotoAction = action
     }
 
@@ -28,12 +27,9 @@ class GoToAction : GoToEntity {
             }
 
 
-
-
         }
 
-        fun setDelay(delay: Int, delayMessage: String = "")
-        {
+        fun setDelay(delay: Int, delayMessage: String = "") {
             runBlocking {
                 print(delayMessage.ifEmpty { "Porfavor espera" })
 

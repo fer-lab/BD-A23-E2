@@ -8,5 +8,4 @@ data class Movie(
     val year: Int,
     val synopsis: String,
     val director: String
-) {
-}
+)

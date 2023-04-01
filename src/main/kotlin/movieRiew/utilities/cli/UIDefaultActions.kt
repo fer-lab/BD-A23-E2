@@ -5,52 +5,43 @@ import movieRiew.AppMenu
 import movieRiew.utilities.GoToEntity
 import movieRiew.utilities.GoToMenu
 
-class UIDefaultActions: Options("", OptionsKeyTypes.NUMBER) {
+class UIDefaultActions : Options("", OptionsKeyTypes.NUMBER) {
     private lateinit var _goto: GoToEntity
     private var disableDefault: Boolean = false
-    fun setDisable(): UIDefaultActions
-    {
+    fun setDisable(): UIDefaultActions {
         disableDefault = true
         return this
     }
 
-    fun isDisabled(): Boolean
-    {
+    fun isDisabled(): Boolean {
         return disableDefault
     }
 
-    fun setBack(back: GoToEntity)
-    {
+    fun setBack(back: GoToEntity) {
         _goto = back
     }
 
-     fun defaultRoute(response: OptionsResponse): Boolean
-     {
-         val app = App()
+    fun defaultRoute(response: OptionsResponse): Boolean {
+        val app = App()
 
 
-         if (getOptions().any{ it.key.trim().toLowerCase() == "v"} && response.get() == "v")
-         {
-             if (this::_goto.isInitialized) {
+        if (getOptions().any { it.key.trim().toLowerCase() == "v" } && response.get() == "v") {
+            if (this::_goto.isInitialized) {
 
-                 app.goto(_goto)
-             }
-             return true
-         }
-         else if (getOptions().any{ it.key.trim().toLowerCase()  == "m"} && response.get() == "m")
-         {
-             app.goto(GoToMenu(AppMenu.HOME))
-             return true
-         }
-         else if (getOptions().any{ it.key.trim().toLowerCase()  == "x"} && response.get() == "x")
-         {
-             app.goto(GoToMenu(AppMenu.LOGOUT))
-             return true
-         }
+                app.goto(_goto)
+            }
+            return true
+        } else if (getOptions().any { it.key.trim().toLowerCase() == "m" } && response.get() == "m") {
+            app.goto(GoToMenu(AppMenu.HOME))
+            return true
+        } else if (getOptions().any { it.key.trim().toLowerCase() == "x" } && response.get() == "x") {
+            app.goto(GoToMenu(AppMenu.LOGOUT))
+            return true
+        }
 
-         return false
+        return false
 
-     }
+    }
 
 
 }

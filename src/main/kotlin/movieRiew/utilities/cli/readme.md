@@ -1,14 +1,17 @@
 Herramientas disponibles
 
 # Banner
+
 Se utiliza para imprimir headers.
 
 ### Ejemplo 1:
+
 ```
 Banner.display("Hola Header")
 ```
 
 Resultado:
+
 ```
 ------------------------------------------------------------
 | Hola Header                                              |
@@ -16,11 +19,13 @@ Resultado:
 ```
 
 ### Ejemplo 2:
+
 ```
 Banner.display("Hola Header", "Hola Body")
 ```
 
 Resultado:
+
 ```
 ------------------------------------------------------------
 | Hola Header                                              |
@@ -30,11 +35,13 @@ Resultado:
 ```
 
 ### Ejemplo 3:
+
 ```
 Banner.display("Multi Linea", "Linea 1\nLinea 2")
 ```
 
 Resultado:
+
 ```
 ------------------------------------------------------------
 | Multi Linea                                              |
@@ -44,13 +51,14 @@ Resultado:
 ------------------------------------------------------------
 ```
 
-
 ### Ejemplo 4:
+
 ```
 Banner.display("Word Wrap", "Lorem ipsum dolor sit amet, .....")
 ```
 
 Resultado:
+
 ```
 ------------------------------------------------------------
 | Word Wrap                                                |
@@ -65,9 +73,11 @@ Resultado:
 ```
 
 # Options
+
 Se utiliza para mostrar opciones y que el usuario eliga una.
 
 ### Ejemplo 1:
+
 ```
 val options = Options("Menú Principal.");
 options.add("Uno")
@@ -78,6 +88,7 @@ options.add("Cuatro")
 val response = options.get()
 println("Respuesta: $response");
 ```
+
 Resultado:
 
 ```
@@ -93,8 +104,8 @@ Resultado:
 Respuesta: 3
 ```
 
-
 ### Ejemplo 2:
+
 ```
 val options = Options("Menú Principal - Opción Letras", OptionsKeyTypes.LETTER);
 options.add("Uno")
@@ -105,6 +116,7 @@ options.add("Cuatro")
 val response = options.get()
 println("Respuesta: $response");
 ```
+
 Resultado:
 
 ```
@@ -120,9 +132,8 @@ Resultado:
 Respuesta: d
 ```
 
-
-
 ### Ejemplo 3:
+
 ```
 val options = Options("Menú Principal - key definido");
 options.add("Uno", "111")
@@ -133,6 +144,7 @@ options.add("Cuatro", "444")
 val response = options.get()
 println("Respuesta: $response");
 ```
+
 Resultado:
 
 ```
@@ -146,9 +158,10 @@ Resultado:
 ------------------------------------------------------------
 ```
 
-
 ### Ejemplo 4:
+
 Continua preguntando hasta que se obtenga una respuesta válida.
+
 ```
 val options = Options("Menú Principal - intentar de nuevo");
 options.add("Uno")
@@ -159,6 +172,7 @@ options.add("Cuatro")
 val response = options.get(true)
 println("Respuesta: $response");
 ```
+
 Resultado:
 
 ```
@@ -176,7 +190,9 @@ Resultado:
 ```
 
 ### Ejemplo 5:
+
 Warning defniido.
+
 ```
 val options = Options("Menú Principal - intentar de nuevo");
 options.add("Uno")
@@ -187,6 +203,7 @@ options.add("Cuatro")
 val response = options.get(true, "Maldita sea!!")
 println("Respuesta: $response");
 ```
+
 Resultado:
 
 ```

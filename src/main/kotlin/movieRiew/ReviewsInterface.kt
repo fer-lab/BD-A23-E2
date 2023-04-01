@@ -13,7 +13,7 @@ interface ReviewsInterface {
 
     fun getAll(): Map<String, Pair<Review, Movie>>
 
-    fun add(userId: String, movieId: String, rank: Int, comment: String, date: Long ? = null): Review
+    fun add(userId: String, movieId: String, rank: Int, comment: String, date: Long? = null): Review
 
     fun remove(id: String)
 }
