@@ -83,6 +83,7 @@ class Auth {
 
         if (user.id.isNotEmpty() && user.userPasswd == passwd) {
             currentUser = user
+            UI.displayMessage("\n".repeat(3), 2, "Iniciando Sesión")
             return
         } else {
 
