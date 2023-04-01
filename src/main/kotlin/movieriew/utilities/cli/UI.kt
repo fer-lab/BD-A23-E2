@@ -59,6 +59,8 @@ class UI(private var title: String = "") {
         }
 
 
+        Tools.newPage()
+
 
         if (title.isNotEmpty()) {
             Banner.display(title)
