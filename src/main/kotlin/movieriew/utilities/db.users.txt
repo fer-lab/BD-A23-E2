@@ -1,7 +1,6 @@
 username|realname|type|passwd
 admin|Administrator|admin|admin
-user1|Dylan Waters|user|user1
-user2|Ashley Patel|user|user2
-user3|Kade Long|user|user3
-user4|Jayla Hall|user|user4
-user5|Talia Hoffman|user|user5
+daniel|Daniel Coutiño|user|daniel
+antonio|Antonio Labra|user|antonio
+caro|Carolina Sanchez|user|user3
+fer|Fernando Ojeda|user|fer
