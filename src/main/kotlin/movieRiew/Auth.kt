@@ -55,7 +55,7 @@ class Auth {
         ui.addAction("Iniciar Sesión")
         ui.addAction("Crear Cuenta")
         ui.addDivisor()
-        ui.addAction("Crear Cuenta", "x")
+        ui.addAction("Salir", "x")
 
         when (ui.response().get()) {
             "1" -> GoToAction.action({ loginPrompt() })

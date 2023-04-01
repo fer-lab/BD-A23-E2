@@ -2,13 +2,10 @@ package movieRiew.utilities
 
 import movieRiew.AppMenu
 
-abstract class GoToEntity {
-
-    constructor()
+abstract class GoToEntity() {
 
     protected lateinit var _gotoMenu: AppMenu
     protected lateinit var _gotoAction: () -> Unit
-
 
     fun isMenu(): Boolean {
         return this::_gotoMenu.isInitialized

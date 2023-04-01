@@ -4,11 +4,7 @@ open class Banner {
 
     private val maxWidth = 100
 
-    fun display(title: String, body: String? = null, clear: Boolean = true) {
-
-        if (clear) {
-            clear()
-        }
+    fun display(title: String, body: String? = null) {
 
         if (title.isNotEmpty()) {
             displayTitle(title)
@@ -38,7 +34,7 @@ open class Banner {
     }
 
     private fun displayTitle(content: String, upperLine: Boolean = true, bottomLine: Boolean = true) {
-        displayLine(content = content, upperLine, bottomLine)
+        displayLine(content = content, upperLine = upperLine, bottomLine = bottomLine)
     }
 
     fun displayBody(content: String, bottomLine: Boolean = true) {
@@ -105,7 +101,7 @@ open class Banner {
     companion object {
 
         fun display(title: String, body: String? = null) {
-            Banner().display(title = title, body)
+            Banner().display(title = title, body = body)
         }
 
         fun line(content: String, upperLine: Boolean = false, bottomLine: Boolean = false) {
@@ -117,10 +113,6 @@ open class Banner {
                 Banner().displayBody(content, bottomLine)
             }
         }
-
-    }
-
-    fun clear() {
 
     }
 }
