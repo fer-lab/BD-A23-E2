@@ -1,7 +1,15 @@
 package movieRiew
 
-import kotlinx.coroutines.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import movieRiew.utilities.GoToAction
+import movieRiew.utilities.Storage
+import movieRiew.utilities.Tools
 import movieRiew.utilities.cli.Banner
+import movieRiew.utilities.cli.UI
+import kotlin.system.exitProcess
 
 class Auth {
 
@@ -24,30 +32,12 @@ class Auth {
         suspend fun logOut() = withContext(Dispatchers.IO) {
             val job = launch {
                 delay(2000L)
-                println("Sesión Finalizada...\n\n\n")
+                println("Sesión Finalizada...")
                 delay(1000L)
+                Tools.newPage()
             }
             println("Cerrando sesión...")
             job.join()
-            currentUser = User("", "", "", UserType.USER, "")
-            App().run()
-        }
-
-        fun logOutx()
-        {
-
-
-
-            runBlocking {
-
-                launch {
-                    delay(2000L)
-                    println("Sesión FInalizada...\n\n\n")
-                }
-                println("Cerrando sesión...")
-
-            }
-
             currentUser = User("", "", "", UserType.USER, "")
             App().run()
         }
@@ -67,26 +57,89 @@ class Auth {
         }
 
 
-        var loggedIn = false
+        val ui = UI("Bienvenido a MovieRew")
+        ui.defaultActions().setDisable()
+        ui.setActionDescription("¿Qué quieres hacer?")
+        ui.addAction("Iniciar Sesión")
+        ui.addAction("Crear Cuenta")
+        ui.addDivisor()
+        ui.addAction("Crear Cuenta", "x")
+
+        when (ui.response().get()) {
+            "1" -> GoToAction.action({ loginPrompt() })
+            "2" -> GoToAction.action({
+                newAccount()
+                loginScreen()
+            })
+            "x" -> exitProcess(0)
+        }
+
+    }
+
+
+
+    private fun loginPrompt()
+    {
 
         Banner.display("Inicio de Sesión", "Ingresa tu usuario y contraseña.")
 
+        print("usuario: ")
+        val userName = (readLine() as String).trim().toLowerCase()
+        print("contraseña: ")
+        val passwd = (readLine() as String).trim().toLowerCase()
 
-        while (!loggedIn) {
-            print("usuario: ")
-            val userName = readln().trim().lowercase()
-            print("contraseña: ")
-            val passwd = readln().trim().lowercase()
+        val user = Users().getByUserName(userName)
 
-            val user = Users().getByUserName(userName)
+        if (user.id.isNotEmpty() && user.userPasswd == passwd) {
+            currentUser = user
+            return
+        } else {
 
-            if (user.id.isNotEmpty() && user.userPasswd == passwd) {
-                currentUser = user
-                loggedIn = true
-            } else {
-                println("El usuario y/o contraseña es inválido. Intenta de nuevo. \n")
-            }
+            UI.displayError("El usuario y/o contraseña es inválido...", 2)
+            loginScreen()
+
         }
+
+    }
+
+    private fun newAccount()
+    {
+        Banner.display("Crear Cuenta", "Ingresa tu nombre, nombre de usuario y contraseña.")
+
+        print("nombre: ")
+        val realName = (readLine() as String).trim().toLowerCase()
+
+        if (realName.isEmpty())
+        {
+            UI.displayError("El nombre es inválido", 1)
+            return
+        }
+
+        print("usuario: ")
+        val userName = (readLine() as String).trim().toLowerCase()
+
+        if (userName.isEmpty())
+        {
+            UI.displayError("El usuario es inválido", 1)
+            return
+        }
+        else if (Users().getByUserName(userName).id.isNotEmpty()) {
+            UI.displayError("El usuario ya existe", 1)
+            return
+        }
+
+        print("contraseña: ")
+        val passwd = (readLine() as String).trim().toLowerCase()
+        if (passwd.isEmpty())
+        {
+            UI.displayError("La contraseña es inválida", 2)
+            return
+        }
+
+        Storage.users.add(User(id = Tools.uuid(), userName = userName, realName = realName, userPasswd = passwd, userType = UserType.USER))
+
+        println("\n\nUsiario creado!\n\n")
+        GoToAction.setDelay(2, "")
 
     }
 

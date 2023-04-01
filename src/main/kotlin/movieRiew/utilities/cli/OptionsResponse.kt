@@ -5,7 +5,7 @@ class OptionsResponse(private val response: String, private val options: ArrayLi
     {
         for(option in options)
         {
-            if (option.key.lowercase().trim() == get())
+            if (option.key.toLowerCase().trim() == get())
             {
                 return true
             }
@@ -16,7 +16,7 @@ class OptionsResponse(private val response: String, private val options: ArrayLi
 
     fun get(): String
     {
-        return response.lowercase().trim()
+        return response.toLowerCase().trim()
     }
 
     override fun toString(): String {

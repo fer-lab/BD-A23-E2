@@ -1,13 +1,12 @@
 package movieRiew
 
+import kotlinx.coroutines.runBlocking
 import movieRiew.utilities.GoToAction
 import movieRiew.utilities.GoToEntity
 import movieRiew.utilities.GoToMenu
 import movieRiew.utilities.Storage
 import movieRiew.utilities.cli.Banner
 import movieRiew.utilities.cli.UI
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
 
 open class App {
 
@@ -56,6 +55,11 @@ open class App {
 
         val myMoviesList = likes.getByUser(user.id).values.mapIndexed { index, pair -> (index + 1) to pair }.toMap()
 
+        if (myMoviesList.isEmpty())
+        {
+            ui.setActionDescription("No existen películas favoritas")
+        }
+
         for (data in myMoviesList) {
             ui.actions().add("${data.value.second.name} (${data.value.second.year}, ${data.value.second.director})", data.key.toString())
         }
@@ -75,6 +79,11 @@ open class App {
 
         val myReviews = reviews.getByUser(user.id).values.mapIndexed { index, pair -> (index + 1) to pair }.toMap()
 
+        if (myReviews.isEmpty())
+        {
+            ui.setActionDescription("No existen reseñas")
+        }
+
         for (data in myReviews) {
             val movie = data.value.second
             ui.actions().add("${movie.name} (${movie.year}, ${movie.director})", data.key.toString())
@@ -92,17 +101,17 @@ open class App {
         var rank: Int? = null
         while (rank == null) {
             print("¿Qué tanto te gustó? (1-5): ")
-            rank = readlnOrNull()?.toIntOrNull()?.takeIf { it in 1..5 }
+            rank = readLine()?.toIntOrNull()?.takeIf { it in 1..5 }
 
         }
 
         print("Comentario: ")
-        val comment = readlnOrNull()?.takeIf { it.isNotEmpty() } ?: "Sin comentario."
+        val comment = readLine()?.takeIf { it.isNotEmpty() } ?: "Sin comentario."
 
         val addReview: () -> Unit = {
             reviews.add(user.id, movie.id, rank, comment)
             Banner.display("!Reseña Agregada!")
-            gotoAction({ displayMovie(movie, back) }, 3)
+            GoToAction.action({ displayMovie(movie, back) }, 3)
         }
 
         try {
@@ -114,7 +123,7 @@ open class App {
             addReview()
         } catch (e: Exception) {
             Banner.display("!Error! ${e.message}")
-            gotoAction({ displayMovie(movie, back) }, 3)
+            GoToAction.action({ displayMovie(movie, back) }, 3)
         }
     }
 
@@ -126,14 +135,14 @@ open class App {
             Banner.display("!Reseña Eliminada!")
         } ?: Banner.display("La reseña no existe...")
 
-        gotoAction({ displayMovie(movie, back) }, 3)
+        GoToAction.action({ displayMovie(movie, back) }, 3)
     }
 
     private fun likeMovie(movie: Movie, back: GoToEntity) {
 
         likes.add(user.id, movie.id, null)
         Banner.display("!Película Agregada!")
-        gotoAction(fun()
+        GoToAction.action(fun()
         {
             displayMovie(movie, back)
         }, 3)
@@ -157,7 +166,7 @@ open class App {
 
         }
 
-        gotoAction(fun()
+        GoToAction.action(fun()
         {
             displayMovie(movie, back)
         }, 3)
@@ -277,66 +286,25 @@ open class App {
         if (goto.isMenu())
         {
             when (goto.getMenu()) {
-                AppMenu.HOME -> gotoAction(fun() { homeUser() }, delay, delayMessage)
-                AppMenu.LOGOUT -> gotoAction(fun() { runBlocking { Auth.logOut() } }, delay, delayMessage)
-                AppMenu.MY_MOVIES -> gotoAction(fun() { myMovies() }, delay, delayMessage)
-                AppMenu.MY_REVIEWS -> gotoAction(fun() { myReviews() }, delay, delayMessage)
-                AppMenu.MOVIES_ALL -> gotoAction(fun() { homeMovies() }, delay, delayMessage)
-                AppMenu.MOVIES_BY_GENRE -> gotoAction(fun() { moviesByGenre() }, delay, delayMessage)
-                AppMenu.MOVIES_BY_YEAR -> gotoAction(fun() { moviesByYear() }, delay, delayMessage)
+                AppMenu.HOME -> GoToAction.action(fun() { homeUser() }, delay, delayMessage)
+                AppMenu.LOGOUT -> GoToAction.action(fun() { runBlocking { Auth.logOut() } }, delay, delayMessage)
+                AppMenu.MY_MOVIES -> GoToAction.action(fun() { myMovies() }, delay, delayMessage)
+                AppMenu.MY_REVIEWS -> GoToAction.action(fun() { myReviews() }, delay, delayMessage)
+                AppMenu.MOVIES_ALL -> GoToAction.action(fun() { homeMovies() }, delay, delayMessage)
+                AppMenu.MOVIES_BY_GENRE -> GoToAction.action(fun() { moviesByGenre() }, delay, delayMessage)
+                AppMenu.MOVIES_BY_YEAR -> GoToAction.action(fun() { moviesByYear() }, delay, delayMessage)
                 else -> homeUser()
             }
         }
         else if (goto.isAction())
         {
-            gotoAction(goto.getAction(), delay, delayMessage)
+            GoToAction.action(goto.getAction(), delay, delayMessage)
         }
         else
         {
             homeUser()
         }
 
-    }
-
-    private fun gotoAction(action: () -> Unit, delay: Int = 0, delayMessage: String = "") {
-
-        runBlocking {
-
-            if (delay > 0) {
-                print(delayMessage.ifEmpty { "Porfavor espera" })
-
-                repeat(delay) {
-                    delay(1000)
-                    print(".")
-                }
-            }
-
-            action()
-
-        }
-
-
-    }
-
-
-    private fun XgotoAction(action: () -> Unit, delay: Int = 0, delayMessage: String = "")
-    {
-        if (delay > 0)
-        {
-            print(delayMessage.ifEmpty { "Porfavor espera" })
-
-            val startTime = System.currentTimeMillis()
-            var count = 0
-
-            while (System.currentTimeMillis() < startTime + delay*1000) {
-                count++
-                print(".")
-                Thread.sleep(1000)
-            }
-
-        }
-
-        action()
     }
 
     private fun displayMovie(movie: Movie, backTo: GoToEntity)

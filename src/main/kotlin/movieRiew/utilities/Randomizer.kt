@@ -1,7 +1,6 @@
 package movieRiew.utilities
 
 import movieRiew.*
-import java.io.File
 
 class Randomizer {
 

@@ -31,8 +31,17 @@ public class Tools {
         return (System.currentTimeMillis() - sixtyDaysAgoMs + randomMs) / 1000;
     }
 
+    public static void newPage() {
+        System.out.println("\n".repeat(60));
+
+    }
+
     public static String uuid() {
         return UUID.randomUUID().toString();
     }
+
+
+
+
 
 }

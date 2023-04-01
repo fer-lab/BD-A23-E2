@@ -1,6 +1,8 @@
 package movieRiew.utilities.cli
 
+import movieRiew.utilities.GoToAction
 import movieRiew.utilities.GoToEntity
+import movieRiew.utilities.Tools
 
 class UI(private var title: String = "") {
 
@@ -80,7 +82,11 @@ class UI(private var title: String = "") {
 
         this._response = options.get(true)
 
-        actionsDefault.defaultRoute(this._response)
+        if (!actionsDefault.isDisabled())
+        {
+            actionsDefault.defaultRoute(this._response)
+        }
+
 
         return this._response
     }
@@ -100,6 +106,26 @@ class UI(private var title: String = "") {
     {
         actions().setDescription(description)
         return this
+    }
+
+    fun addAction(label: String, key: String ? = null) {
+        actions().add(label, key)
+    }
+
+
+    fun addDivisor() {
+        actions().addDivisor()
+    }
+
+    companion object {
+        fun displayError(message: String, delay: Int, waitingMessage: String? = null) {
+            displayMessage(message, delay, waitingMessage)
+        }
+        fun displayMessage(message: String, delay: Int, waitingMessage: String? = null) {
+            println("${message}\n")
+            GoToAction.setDelay(delay, waitingMessage?:"")
+            Tools.newPage()
+        }
     }
 
 }

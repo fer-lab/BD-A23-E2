@@ -75,14 +75,7 @@ open class Options(private var description: String, private val mode: OptionsKey
         {
             for (option in options)
             {
-                if (option.label == "__divisor__")
-                {
-                    body += "  \n"
-                }
-                else
-                {
-                    body += "${option.key}. ${option.label}\n"
-                }
+                body += if (option.label == "__divisor__") "  \n" else "${option.key}. ${option.label}\n"
             }
         }
         else
@@ -103,7 +96,7 @@ open class Options(private var description: String, private val mode: OptionsKey
     private fun getResponse(): String
     {
         print(": ")
-        return readln().lowercase().trim()
+        return (readLine() as String).toLowerCase().trim()
     }
 
 

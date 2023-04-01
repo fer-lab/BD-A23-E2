@@ -16,7 +16,7 @@ class Users: UsersInterface {
     }
 
     private fun getEmptyUser(): User {
-        return User(id = "0", userName = "", realName = "", userType = UserType.USER, userPasswd = "")
+        return User(id = "", userName = "", realName = "", userType = UserType.USER, userPasswd = "")
     }
 
 }

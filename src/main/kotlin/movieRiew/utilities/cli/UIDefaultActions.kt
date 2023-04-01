@@ -29,7 +29,7 @@ class UIDefaultActions: Options("", OptionsKeyTypes.NUMBER) {
          val app = App()
 
 
-         if (getOptions().any{ it.key.trim().lowercase() == "v"} && response.get() == "v")
+         if (getOptions().any{ it.key.trim().toLowerCase() == "v"} && response.get() == "v")
          {
              if (this::_goto.isInitialized) {
 
@@ -37,12 +37,12 @@ class UIDefaultActions: Options("", OptionsKeyTypes.NUMBER) {
              }
              return true
          }
-         else if (getOptions().any{ it.key.trim().lowercase()  == "m"} && response.get() == "m")
+         else if (getOptions().any{ it.key.trim().toLowerCase()  == "m"} && response.get() == "m")
          {
              app.goto(GoToMenu(AppMenu.HOME))
              return true
          }
-         else if (getOptions().any{ it.key.trim().lowercase()  == "x"} && response.get() == "x")
+         else if (getOptions().any{ it.key.trim().toLowerCase()  == "x"} && response.get() == "x")
          {
              app.goto(GoToMenu(AppMenu.LOGOUT))
              return true
