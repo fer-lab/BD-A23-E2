@@ -26,6 +26,7 @@ open class App {
     }
 
     private fun homeUser() {
+
         val ui = UI("Hola ${user.realName}! Bienvenido a MovieRiew")
         ui.actions()
             .setDescription("¿Qué quieres hacer?")
@@ -40,6 +41,7 @@ open class App {
             "1" -> goto(GoToMenu(AppMenu.MY_MOVIES))
             "2" -> goto(GoToMenu(AppMenu.MY_REVIEWS))
             "3" -> goto(GoToMenu(AppMenu.MOVIES_ALL))
+            "x" -> goto(GoToMenu(AppMenu.LOGOUT))
         }
     }
 
@@ -266,7 +268,9 @@ open class App {
         if (goto.isMenu()) {
             when (goto.getMenu()) {
                 AppMenu.HOME -> GoToAction.action(fun() { homeUser() }, delay, delayMessage)
-                AppMenu.LOGOUT -> GoToAction.action(fun() { runBlocking { Auth.logOut() } }, delay, delayMessage)
+                AppMenu.LOGOUT -> GoToAction.action(fun() { runBlocking {
+                    Auth.logOut()
+                } }, delay, delayMessage)
                 AppMenu.MY_MOVIES -> GoToAction.action(fun() { myMovies() }, delay, delayMessage)
                 AppMenu.MY_REVIEWS -> GoToAction.action(fun() { myReviews() }, delay, delayMessage)
                 AppMenu.MOVIES_ALL -> GoToAction.action(fun() { homeMovies() }, delay, delayMessage)
