@@ -68,22 +68,23 @@ class Movies : MoviesInterface {
     }
 
     fun parseReviews(movie: Movie): String {
+
         val reviewList = reviews.getByMovie(movie.id).values
 
         return when (reviewList.size) {
             0 -> "No hay reseñas para esta película"
             else -> {
                 val reviewsText = reviewList.map { review ->
-                    "\"${review.first.comment}\"\nPor: ${users.get(review.first.user).realName} - Rank: ${review.first.rank} - Publicado: ${
-                        Tools.dateFormat(
-                            review.first.date
-                        )
-                    }\n \n"
+                    buildString {
+                        append("\"${review.first.comment}\"\n")
+                        append("Por: ${users.get(review.first.user).realName} - Rank: ${review.first.rank} - Publicado: ${Tools.dateFormat(review.first.date)}\n \n")
+                    }
                 }
                 "Existen ${reviewList.size} reseñas: \n \n${reviewsText.joinToString("\n")}"
             }
         }
     }
+
 
     fun emptyMovie(): Movie {
         return Movie(id = "", name = "", genre = "", year = 0, synopsis = "", director = "")
