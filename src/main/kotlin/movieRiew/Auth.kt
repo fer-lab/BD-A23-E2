@@ -132,7 +132,7 @@ class Auth {
             )
         )
 
-        println("\n\nUsiario creado!\n\n")
+        println("\n\nUsuario creado!\n\n")
         GoToAction.setDelay(2, "")
 
     }
