@@ -28,20 +28,19 @@ open class App {
     private fun homeUser() {
 
         val ui = UI("Hola ${user.realName}! Bienvenido a MovieRiew")
-        ui.actions()
-            .setDescription("¿Qué quieres hacer?")
-            .add("Ver mis películas favoritas")
-            .add("Ver mis reseñas")
-            .add("Ver una película")
+        ui.setActionDescription("¿Qué quieres hacer?")
+        ui.addAction("Mis Reseñas")
+        ui.addAction("Mis Películas Favoritas")
+        ui.addAction("Todas las Películas")
 
         ui.defaultActions().setDisable().add("Cerrar Sesión", "X")
 
 
         when (ui.response().get()) {
-            "1" -> goto(GoToMenu(AppMenu.MY_MOVIES))
-            "2" -> goto(GoToMenu(AppMenu.MY_REVIEWS))
-            "3" -> goto(GoToMenu(AppMenu.MOVIES_ALL))
-            "x" -> goto(GoToMenu(AppMenu.LOGOUT))
+            "1" -> gotoMenu(AppMenu.MY_MOVIES)
+            "2" -> gotoMenu(AppMenu.MY_REVIEWS)
+            "3" -> gotoMenu(AppMenu.MOVIES_ALL)
+            "x" -> gotoMenu(AppMenu.LOGOUT)
         }
     }
 
@@ -172,12 +171,12 @@ open class App {
         ui.setActionDescription("Elije una opción")
         ui.setBack(GoToMenu(AppMenu.HOME))
 
-        ui.actions().add("Películas por Género")
-        ui.actions().add("Películas por Año")
+        ui.addAction("Películas por Género")
+        ui.addAction("Películas por Año")
 
         when (ui.response().get()) {
-            "1" -> goto(GoToMenu(AppMenu.MOVIES_BY_GENRE))
-            "2" -> goto(GoToMenu(AppMenu.MOVIES_BY_YEAR))
+            "1" -> gotoMenu(AppMenu.MOVIES_BY_GENRE)
+            "2" -> gotoMenu(AppMenu.MOVIES_BY_YEAR)
         }
     }
 
@@ -198,7 +197,7 @@ open class App {
             displayMoviesByGenre(genresMap[ui.response().toInt()].toString())
         }
 
-        goto(GoToMenu(AppMenu.HOME))
+        gotoMenu(AppMenu.HOME)
     }
 
     private fun displayMoviesByGenre(genre: String) {
@@ -284,6 +283,11 @@ open class App {
             homeUser()
         }
 
+    }
+
+    private fun gotoMenu(menu: AppMenu, delay: Int = 0, delayMessage: String = "")
+    {
+        goto(GoToMenu(menu), delay, delayMessage)
     }
 
     private fun displayMovie(movie: Movie, backTo: GoToEntity) {
