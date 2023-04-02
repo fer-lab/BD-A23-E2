@@ -58,7 +58,7 @@ class Movies : MoviesInterface {
 
         if (movieRatings.toFloat() > 0F) {
             if (Tools.hasDecimal(movieRatings.toFloat())) {
-                return String.format("%.1f", movieRatings.toFloat()) + "/5"
+                return String.format("%.1f", movieRatings.toFloat())
             }
             return "${movieRatings.toFloat().toInt()}/5"
 
